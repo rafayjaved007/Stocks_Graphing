@@ -22,12 +22,15 @@ Windows
 Go to the root directory
 
 <h3>Install dependencies</h3>
+
 `pip install -r requirements.txt`
 
 <h3>Migrate the database</h3>
+
 `python manage.py migrate`
 
 <h3>Run the project on local machine</h3>
+
 `python manage.py runserver`
 
 And navigate to http://127.0.0.1:8000/
