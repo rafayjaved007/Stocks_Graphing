@@ -62,7 +62,7 @@ class SecondGraph(APIView):
         interval = 0
         while interval <= 1081:
             try:
-                delta.append(stocks[interval].us_tech_100 - stocks[interval].us_500)
+                # delta.append(stocks[interval].us_tech_100 - stocks[interval].us_500)
                 delta_now = stocks[interval].us_tech_100 - stocks[interval].us_500
                 delta_ago = stocks[int(time / 5)].us_tech_100 - stocks[int(time / 5)].us_500
                 slope = (delta_now - delta_ago) / time
