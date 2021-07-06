@@ -17,7 +17,7 @@ def scrape_schedule():
         stock.save()
 
         # Deleting stocks older than 60 minutes
-        ninety_minutes_ago = timezone.now() - timezone.timedelta(minutes=60)
+        ninety_minutes_ago = timezone.now() - timezone.timedelta(minutes=100)
         expired_stocks = Stocks.objects.filter(
             timestamp__lte=ninety_minutes_ago
         )
