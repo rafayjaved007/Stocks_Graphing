@@ -22,14 +22,14 @@
     <h1>Graphs of <b>Stocks</b> from <b>Investing.com</b></h1>
   </center>
   <hr />
-  <div class="row">
-    <div class="col-md-6">
+  <div class="row" style="width: 90%; margin: 0 auto">
+    <div >
       <canvas id="myChartline"></canvas>
     </div>
   </div>
   <hr>
-  <div class="row">
-      <div class="col-md-6">
+  <div class="row" style="width: 90%; margin: 0 auto">
+      <div>
       <h2>2nd Graph</h2>
           <input type="text" id="time" name="time" />
           <input type="button" value="Submit"
@@ -101,9 +101,10 @@
         // The data for our dataset
         data: {
           labels: labels,
+          fill: false,
           datasets: [{
             label: chartLabel,
-            backgroundColor: 'rgb(255, 100, 200)',
+            backgroundColor: 'transparent',
             borderColor: 'rgb(55, 99, 132)',
             data: chartdata,
           }]
@@ -138,9 +139,10 @@
         // The data for our dataset
         data: {
           labels: labels,
+          fill: false,
           datasets: [{
             label: chartLabel,
-            backgroundColor: 'rgb(255, 100, 200)',
+            backgroundColor: 'transparent',
             borderColor: 'rgb(55, 99, 132)',
             data: chartdata,
           }]
