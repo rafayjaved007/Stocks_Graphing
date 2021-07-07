@@ -33,6 +33,8 @@ def get_data(request, *args, **kwargs):
     if len(stocks) >= 1080:
         stocks = stocks[len(stocks) - 1080:]
 
+    # stocks.reverse()
+
     delta = []
     interval = 0
     while interval <= 1080:
@@ -48,7 +50,7 @@ def get_data(request, *args, **kwargs):
         "delta": stocks[len(stocks)-1].us_tech_100 - stocks[len(stocks)-1].us_500,
         "labels": labels,
         "chartLabel": chartLabel,
-        "chartdata": delta,
+        "chartdata": delta[::-1],
     }
 
     return JsonResponse(data) # http response
@@ -76,6 +78,8 @@ class SecondGraph(APIView):
         stocks = Stocks.objects.all()
         if len(stocks) >= 1080:
             stocks = stocks[len(stocks) - 1080:]
+
+        stocks.reverse()
         delta = []
         interval = 0
         while interval <= 1080:
@@ -100,6 +104,6 @@ class SecondGraph(APIView):
             "mdelta": stocks[int(time / 5)].us_tech_100 - stocks[int(time / 5)].us_500,
             "labels": labels,
             "chartLabel": chartLabel,
-            "chartdata": delta,
+            "chartdata": delta[::-1],
         }
         return Response(data)
