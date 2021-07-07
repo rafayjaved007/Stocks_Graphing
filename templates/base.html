@@ -22,21 +22,21 @@
     <h1>Graphs of <b>Stocks</b> from <b>Investing.com</b></h1>
   </center>
   <hr />
-  <div class="row" style="width: 90%; margin: 0 auto">
-    <div >
-      <canvas id="myChartline"></canvas>
-    </div>
+  <div class="row" style="width: 150%; margin: 0 auto">
+      <p>US Tech 100 Chg. % = <span id="v1"></span></p>
+      <p>US 500 Chg. % = <span id="v2"></span></p>
+      <p>Delta = <span id="delta"></span></p>
+      <canvas id="myChartline" ></canvas>
   </div>
   <hr>
-  <div class="row" style="width: 90%; margin: 0 auto">
-      <div>
+  <div class="row" style="width: 150%; margin: 0 auto">
       <h2>2nd Graph</h2>
           <input type="text" id="time" name="time" />
           <input type="button" value="Submit"
             onclick="plot_graph2(document.getElementById('time').value)" />
+      <p>m Delta = <span id="mdelta"></span></p>
       <canvas id="graph2"></canvas>
-    </div>
-      </div>
+  </div>
 
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -50,9 +50,13 @@
       method: "GET",
       url: '/test-api',
       success: function(data) {
+        document.getElementById("v1").innerText = data.v1;
+        document.getElementById("v2").innerText = data.v2;
+        document.getElementById("delta").innerText = data.delta;
         drawLineGraph(data, 'myChartline');
         {#drawBarGraph(data, 'myChartBar');#}
         console.log("Plotting graph");
+        console.log(data.v1);
       },
       error: function(error_data) {
         console.log(error_data);
@@ -65,6 +69,7 @@
       method: "GET",
       url: `/second-graph/${parseInt(time)}`,
       success: function(data) {
+        document.getElementById("mdelta").innerText = data.mdelta
         drawLineGraph2(data, 'graph2');
         {#drawBarGraph(data, 'myChartBar');#}
         console.log("Plotting second graph");
@@ -112,11 +117,29 @@
 
         // Configuration options go here
         options: {
+          aspectRatio: 4,
+          responsive: true,
+          maintainAspectRatio: true,
           scales: {
             xAxes: [{
-              display: true
+              display: true,
+              gridLines: {
+                  display: true
+               },
+              ticks: {
+                    autoSkip: false,
+                    maxRotation: 0,
+                    minRotation: 0,
+                    major: {
+                        enabled: true,
+                        fontColor: 'red'
+                    }
+                }
             }],
             yAxes: [{
+              gridLines: {
+                  display: false
+               },
               ticks: {
                 beginAtZero: false
               }
@@ -150,8 +173,16 @@
 
         // Configuration options go here
         options: {
+          aspectRatio: 4,
+          responsive: true,
+          maintainAspectRatio: true,
           scales: {
             xAxes: [{
+              ticks: {
+                  autoSkip: false,
+                  maxRotation: 0,
+                  minRotation: 0,
+              },
               display: true
             }],
             yAxes: [{
