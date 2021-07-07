@@ -14,27 +14,38 @@ class HomeView(View):
 
 
 def get_data(request, *args, **kwargs):
-    #
-    # labels = []
-    # while interval <= 5400:
-    #     labels.append(interval)
-    #     interval += 5
-    labels = ['0', '5', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '60', '65', '70', '75', '80',
-              '85', '90']
+    interval = 0
+    labels = []
+    while interval <= 5400:
+        labels.append('')
+        interval += 5
+
+    s_interval = 0
+    m_interval = 0
+    while s_interval <= 1081:
+        labels[s_interval] = m_interval
+        s_interval += 60
+        m_interval += 5
+    # labels = ['0', '5', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '60', '65', '70', '75', '80',
+    #           '85', '90']
     chartLabel = "Delta"
     stocks = Stocks.objects.all()
+    if len(stocks) >= 1080:
+        stocks = stocks[len(stocks) - 1080:]
+
     delta = []
     interval = 0
-    while interval <= 1081:
+    while interval <= 1080:
         try:
             delta.append(stocks[interval].us_tech_100 - stocks[interval].us_500)
-            interval += 60
+            interval += 1
         except IndexError:
             break
 
-
-
     data = {
+        "v1": stocks[len(stocks)-1].us_tech_100,
+        "v2": stocks[len(stocks)-1].us_500,
+        "delta": stocks[len(stocks)-1].us_tech_100 - stocks[len(stocks)-1].us_500,
         "labels": labels,
         "chartLabel": chartLabel,
         "chartdata": delta,
@@ -48,27 +59,33 @@ class SecondGraph(APIView):
     permission_classes = []
 
     def get(self, request, format=None, time=0):
-        labels = ['0', '5', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '60', '65', '70', '75', '80',
-                  '85', '90']
-        # interval = 0
-        # labels = []
-        # while interval <= 5400:
-        #     labels.append(interval)
-        #     interval += 5
+        intervals = 0
+        labels = []
+        while intervals <= 5400:
+            labels.append('')
+            intervals += 5
+
+        s_interval = 0
+        m_interval = 0
+        while s_interval <= 1081:
+            labels[s_interval] = m_interval
+            s_interval += 60
+            m_interval += 5
 
         chartLabel = "m Delta"
         stocks = Stocks.objects.all()
+        if len(stocks) >= 1080:
+            stocks = stocks[len(stocks) - 1080:]
         delta = []
         interval = 0
-        while interval <= 1081:
+        while interval <= 1080:
             try:
                 # delta.append(stocks[interval].us_tech_100 - stocks[interval].us_500)
                 delta_now = stocks[interval].us_tech_100 - stocks[interval].us_500
                 delta_ago = stocks[int(time / 5)].us_tech_100 - stocks[int(time / 5)].us_500
                 slope = (delta_now - delta_ago) / time
-                print(delta_now, delta_ago, slope)
                 delta.append(slope)
-                interval += 60
+                interval += 1
             except IndexError:
                 break
 
@@ -80,6 +97,7 @@ class SecondGraph(APIView):
         #     delta.append(slope)
 
         data = {
+            "mdelta": stocks[int(time / 5)].us_tech_100 - stocks[int(time / 5)].us_500,
             "labels": labels,
             "chartLabel": chartLabel,
             "chartdata": delta,
