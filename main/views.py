@@ -50,7 +50,7 @@ def get_data(request, *args, **kwargs):
         "delta": stocks[len(stocks)-1].us_tech_100 - stocks[len(stocks)-1].us_500,
         "labels": labels,
         "chartLabel": chartLabel,
-        "chartdata": delta[::-1],
+        "chartdata": delta,
     }
 
     return JsonResponse(data) # http response
@@ -104,6 +104,6 @@ class SecondGraph(APIView):
             "mdelta": stocks[int(time / 5)].us_tech_100 - stocks[int(time / 5)].us_500,
             "labels": labels,
             "chartLabel": chartLabel,
-            "chartdata": delta[::-1],
+            "chartdata": delta,
         }
         return Response(data)
