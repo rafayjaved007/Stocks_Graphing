@@ -22,14 +22,14 @@
     <h1>Graphs of <b>Stocks</b> from <b>Investing.com</b></h1>
   </center>
   <hr />
-  <div class="row" style="width: 150%; margin: 0 auto">
+  <div class="row" style="width: 98%; margin: 0 auto">
       <p>US Tech 100 Chg. % = <span id="v1"></span></p>
       <p>US 500 Chg. % = <span id="v2"></span></p>
       <p>Delta = <span id="delta"></span></p>
       <canvas id="myChartline" ></canvas>
   </div>
   <hr>
-  <div class="row" style="width: 150%; margin: 0 auto">
+  <div class="row" style="width: 98%; margin: 0 auto">
       <h2>2nd Graph</h2>
           <input type="text" id="time" name="time" />
           <input type="button" value="Submit"
@@ -117,6 +117,9 @@
 
         // Configuration options go here
         options: {
+          tooltips: {
+            rtl: true
+          },
           animation: false,
           aspectRatio: 4,
           responsive: true,
@@ -127,10 +130,15 @@
                     }
                 },
           scales: {
+               myScale: {
+        type: 'logarithmic',
+        position: 'right', // `axis` is determined by the position as `'y'`
+      },
             xAxes: [{
+              position: 'right',
               display: true,
               gridLines: {
-                  display: true
+                  display: false
                },
               ticks: {
                     autoSkip: false,
@@ -143,6 +151,7 @@
                 }
             }],
             yAxes: [{
+              position: 'right',
               gridLines: {
                   display: false
                },
@@ -190,6 +199,9 @@
                 },
           scales: {
             xAxes: [{
+              gridLines: {
+                  display: false
+               },
               ticks: {
                   autoSkip: false,
                   maxRotation: 0,
@@ -198,6 +210,10 @@
               display: true
             }],
             yAxes: [{
+              gridLines: {
+                  display: false
+               },
+              position: 'right',
               ticks: {
                 beginAtZero: false
               }
