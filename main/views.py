@@ -56,7 +56,7 @@ def get_data(request, *args, **kwargs):
     data = {
         "v1": stocks[len(stocks)-1].us_tech_100,
         "v2": stocks[len(stocks)-1].us_500,
-        "delta": stocks[len(stocks)-1].us_tech_100 - stocks[len(stocks)-1].us_500,
+        "delta": round(stocks[len(stocks)-1].us_tech_100 - stocks[len(stocks)-1].us_500, 2),
         "labels": labels[::-1],
         "chartLabel": chartLabel,
         "chartdata": delta,
@@ -112,7 +112,7 @@ class SecondGraph(APIView):
             delta = d_list + delta
 
         data = {
-            "mdelta": stocks[int(time / 5)].us_tech_100 - stocks[int(time / 5)].us_500,
+            "mdelta": round(stocks[int(time / 5)].us_tech_100 - stocks[int(time / 5)].us_500, 2),
             "labels": labels[::-1],
             "chartLabel": chartLabel,
             "chartdata": delta,
