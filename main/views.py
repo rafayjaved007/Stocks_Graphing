@@ -44,11 +44,20 @@ def get_data(request, *args, **kwargs):
         except IndexError:
             break
 
+    if len(delta) < 1080:
+        dummy = 0
+        d_list = []
+        while dummy < 1080-len(delta):
+            d_list.append(0)
+            dummy += 1
+
+        delta = d_list + delta
+
     data = {
         "v1": stocks[len(stocks)-1].us_tech_100,
         "v2": stocks[len(stocks)-1].us_500,
         "delta": stocks[len(stocks)-1].us_tech_100 - stocks[len(stocks)-1].us_500,
-        "labels": labels,
+        "labels": labels[::-1],
         "chartLabel": chartLabel,
         "chartdata": delta,
     }
@@ -93,16 +102,18 @@ class SecondGraph(APIView):
             except IndexError:
                 break
 
-        # for stock in stocks[len(stocks)-1081:]:
-        #     delta_now = stock.us_tech_100 - stock.us_500
-        #     delta_ago = stocks[int(time / 5)].us_tech_100 - stocks[int(time / 5)].us_500
-        #     slope = (delta_now - delta_ago) / time
-        #     print(delta_now, delta_ago, slope)
-        #     delta.append(slope)
+        if len(delta) < 1080:
+            dummy = 0
+            d_list = []
+            while dummy < 1080 - len(delta):
+                d_list.append(0)
+                dummy += 1
+
+            delta = d_list + delta
 
         data = {
             "mdelta": stocks[int(time / 5)].us_tech_100 - stocks[int(time / 5)].us_500,
-            "labels": labels,
+            "labels": labels[::-1],
             "chartLabel": chartLabel,
             "chartdata": delta,
         }
